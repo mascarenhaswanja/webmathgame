@@ -39,3 +39,14 @@ High Scores Screen - Displays a list of users who have played the game, and whic
 ## :woman_student: :man_student: Students tasks
 
 ### 🖼️ Screenshots
+
+## :white_check_mark: Attribution
+ Expert Math Frog includes screenshots and art from the following sources
+
+    - Images: https://www.gameartguppy.com/
+        Background: https://www.gameartguppy.com/shop/jungle-repeatable-horizontal/
+        Frog: https://www.gameartguppy.com/shop/frog-lilypad/
+
+    - Sound: https://soundimage.org/wp-content/uploads/2018/08/Rivers-of-Jewels.mp3
+
+    - Icons: https://www.flaticon.com/
