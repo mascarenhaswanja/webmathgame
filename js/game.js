@@ -3,27 +3,22 @@ console.log("Output - Expert Math Frog");
 */
 //@TODO: Implement DB player x score
 
+let player
 let question = []
+let score = 0
+let fly = []
+
 const startGame = () => {
     console.log("Start Game");
     /* @TODO: In each level, enemies move from left to right at random speeds.
      Some enemies will move faster; others will move slower. */
+    for (let i = 0; i < 5; i++) {
+        fly.push(new Fly(10))
+    }
 
     question = generateQuestions()
 }
 
-const viewRules = () => {
-    console.log("View Rules");
-
-}
-
-const viewScores = () => {
-    console.log("View Scores");
-}
-
-document.querySelector("#btn-start").addEventListener("click",startGame)
-document.querySelector("#btn-rules").addEventListener("click",viewRules)
-document.querySelector("#btn-scores").addEventListener("click",viewScores)
 
 /*  For each row generate the question with random numbers
 Each multiplication question must consist of two randomly generated numbers.
@@ -37,8 +32,21 @@ const generateQuestions = () => {
             const first = Math.floor((Math.random() * 15) + 1)
             const second = Math.floor((Math.random() * 10) + 1)
             
-            question[i] = `${first} * ${second} = ?`
+            //question[i] = `${first} * ${second} = ?`
     
     } 
 }
 
+class Fly {
+    constructor(speed) {
+      this.speed = speed
+      this.randomSpeed()
+    }
+  
+    randomSpeed() {
+      this.speed = Math.floor(Math.random() * 10) + this.speed / 10
+    }
+}
+
+
+startGame()

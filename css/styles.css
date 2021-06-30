@@ -1,23 +1,22 @@
-* {
+body {
     margin: 0;
     padding: 0;
 }
-  
 .menu {
     margin: 0 auto;
     text-align: center;
-    height: 700px;
-    width: 1200px;
+    height: 600px;
+    width: 600px;
     background-image: url("../assets/img/background.jpeg");
     background-size: cover;
-    position: relative;
 }
 
  
-h1 {
+h1, h2 {
     color: wheat;
     padding-top: 20px;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
+    text-transform: uppercase;
 }
   
 .img-music {
@@ -38,25 +37,62 @@ input {
     text-align: center;
 }
 
-button {
-    width: 150px;
-    height: 40px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 25px;
-    background-color: wheat;
-    font-size: 1em;
-    display: block;
+.flex-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.center {
-    
-    justify-content: center;
+.container-box {
+    height: 300px;  
+}
+  
+.content-box {
+    text-align: center;
+    width: 200px;
+}
+
+button {
+    width: 150px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: wheat;
+    font-size: 1em; 
+    text-transform: uppercase;
+} 
+
+p {
+    color: wheat;
+    font-size: 1.20em; 
     align-items: center;
 }
 
+li {
+    color: wheat;
+    font-size: 1.30em; 
+}
+
+a {
+    color: wheat;
+    font-size: 1.30em; 
+}
 
 .grid-container {
     display: grid;
     grid-template-rows: 100px 300px;
-  }
+}
+
+.img-fly {
+    width: 50px;
+    padding: 50px;
+}
+
+.img-frog {
+    width: 70px;
+    padding: 70px;
+}
+
+.results {
+    background-color: black;
+}

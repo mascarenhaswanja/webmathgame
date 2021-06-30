@@ -5,32 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Expert Math Frog</title>
+    <title>Game - Feed the frog</title>
 </head>
 <body>
-    <div id="main-menu" class="menu">
-        <h1>EXPERT MATH FROG</h1>
+    <div class="menu">
+        <h1>Feed the frog</h1>
+
+        <input type="text" name="" id="player" placeholder="Enter player name" required>
+
+        <div class="flex-box container-box">
+            <div class="content-box">
+                <button id="btn-start">Start</button>
+                <button id="btn-rules">View Rules</button>
+                <button id="btn-scores">High Scores</button>
+            </div>
+        </div>   
+            <!-- <audio controls>
+                    <source src="assets/audio/Rivers-of-Jewels.mp3" type="audio/mpeg"/>
+                </audio> -->
+            <!-- </div> -->
             <a id="btn-nomusic" class="click btn-music">
                 <img id="img-nosound" class="img-music" src="assets/icon/noSound.jpeg">
             </a>
-            <!-- <a id="btn-music" class="click btn-music">
-                <img id="img-sound" class="img-menu" src="assets/icon/sound.jpeg">
-            </a> -->
-
-            <div class="center">
-                <input type="text" name="" id="player" placeholder="Enter player name">
-            
-                <button id="btn-start">START</button>
-                <button id="btn-rules">VIEW RULES</button>
-                <button id="btn-scores">HIGH SCORES</button>
-                <!-- <audio controls>
-                    <source src="assets/audio/Rivers-of-Jewels.mp3" type="audio/mpeg"/>
-                </audio> -->
-            </div>
     </div>
 
-    
-
-    <script type="text/javascript" src="js/game.js">  </script>
+    <script type="text/javascript" src="js/menu.js">  </script>
 </body>
 </html>
