@@ -96,3 +96,17 @@ a {
 .results {
     background-color: black;
 }
+
+.btn-goback {
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    float: left;
+    border-radius: 30px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
