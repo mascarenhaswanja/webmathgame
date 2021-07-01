@@ -40,6 +40,19 @@ High Scores Screen - Displays a list of users who have played the game, and whic
 
 ### 🖼️ Screenshots
 
+#### Welcome
+
+![](./screenshots/Welcome.png) 
+
+#### Rules
+
+![](./screenshots/Rules.png) 
+
+#### Scores
+
+![](./screenshots/Scores.png) 
+
+
 ## :white_check_mark: Attribution
  Expert Math Frog includes screenshots and art from the following sources
 
