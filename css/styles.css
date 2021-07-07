@@ -7,7 +7,7 @@ body {
     text-align: center;
     height: 600px;
     width: 600px;
-    background-image: url("../assets/img/background.jpeg");
+    background-image: url("../assets/img/background_water.png");
     background-size: cover;
 }
 
@@ -84,13 +84,53 @@ a {
 }
 
 .img-fly {
-    width: 50px;
-    padding: 50px;
+    width: 60px;
+    padding: 60px;
+
+}
+
+.fly-question-box {
+    width: 80px;
+    height: auto;
+    background-color: azure;
+    font-size: 30px;
+    margin: 0;
+}
+
+.location-col-1 {
+    grid-column-start: 1;
+}
+.location-col-2 {
+    grid-column-start: 2;
+}
+.location-col-3 {
+    grid-column-start: 3;
+}
+.location-col-4 {
+    grid-column-start: 4;
+}
+.location-col-5 {
+    grid-column-start: 5;
+}
+.location-row-1 {
+    grid-row-start: 1;
+}
+.location-row-2 {
+    grid-row-start: 2;
+}
+.location-row-3 {
+    grid-row-start: 3;
+}
+.location-row-4 {
+    grid-row-start: 4;
+}
+.location-row-5 {
+    grid-row-start: 5;
 }
 
 .img-frog {
-    width: 70px;
-    padding: 70px;
+    width: 100px;
+    padding: 100px;    
 }
 
 .results {
@@ -110,3 +150,11 @@ ul {
     margin: 0;
     padding: 0;
   }
+
+  .game {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr ;
+  }
+
+ 

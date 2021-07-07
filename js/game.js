@@ -4,7 +4,7 @@ console.log("Output - Expert Math Frog");
 //@TODO: Implement DB player x score
 
 let player
-let question = []
+// let question = []
 let score = 0
 let fly = []
 
@@ -16,7 +16,7 @@ const startGame = () => {
         fly.push(new Fly(10))
     }
 
-    question = generateQuestions()
+    // question = generateQuestions()
 }
 
 
@@ -25,16 +25,15 @@ Each multiplication question must consist of two randomly generated numbers.
   The first number must be between 1-15.
   The second number must be a value between 1-10.
 */ 
-const generateQuestions = () => {
-    for (let i = 0 ; i < 5 ; i ++) {
+const generateQuestion= () => {
         // generate different questions for each level
 
+        let question = ""
             const first = Math.floor((Math.random() * 15) + 1)
             const second = Math.floor((Math.random() * 10) + 1)
-            
-            //question[i] = `${first} * ${second} = ?`
+            question = `${parseInt(first)} * ${parseInt(second)}`
     
-    } 
+    return question
 }
 
 class Fly {
@@ -50,3 +49,30 @@ class Fly {
 
 
 startGame()
+
+
+
+/// new code -- mayank
+const initalSetup = () => {
+  document.querySelector(".game").innerHTML = `
+  <img  class="img-frog location-col-5 location-row-3" src="assets/img/frog_new.png">
+  `
+  for(let i = 0; i< 5; i++){
+    document.querySelector(".game").innerHTML += `
+  <div class="location-col-1 ">
+  <img  class="img-fly" src="assets/img/fly.png">
+  <p class="fly-question-box">${generateQuestion()}</p>
+  </div>
+  `
+  }
+  
+}
+
+const changeFlyLocation = (row,col) => {
+  document.querySelector("img-fly").className = `location-row-${row}   location-col-${col}`;
+}
+const changeFrogLocation = (row) => {
+  document.querySelector("img-frog").className += `location-row-${row} `;
+}
+initalSetup()
+
