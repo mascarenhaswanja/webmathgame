@@ -63,7 +63,7 @@ const initalSetup = () => {
   document.querySelector(".game").innerHTML = `
   <img  class="img-frog" src="assets/img/frog_new.png">
   `
-  document.querySelector(".img-frog").style.gridColumn = '10';
+  document.querySelector(".img-frog").style.gridColumn = '20';
   document.querySelector(".img-frog").style.gridRow = '3';  
   for(let i = 0; i< 5; i++){
     document.querySelector(".game").innerHTML += `
@@ -78,9 +78,9 @@ const initalSetup = () => {
 
   
 }
-
-const gameOver = (itemCol) => {
-  if(itemCol == 10){
+let itemColGameEnd = 0
+const gameOver = () => {
+  if(itemColGameEnd === 20){
      //game over
       console.log("Game over");
       clearInterval(trigger)
@@ -89,15 +89,15 @@ const gameOver = (itemCol) => {
   }
 }
 const changeFlyLocation = (col) => {
-  let selectedFly = Math.floor(Math.random() * 5) + 1;
-  let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
-
-  // if(currentFlyCol === ""){
-  //     document.querySelector(`#fly-${selectedFly}`).style.gridColumn = "1";
-  //     document.querySelector(`#fly-${selectedFly}`).style.gridRow = `${selectedFly}`;
-  // }else{
+    let selectedFly = Math.floor(Math.random() * 5) + 1;
+    let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
+    
     let newFlyCol = parseInt(currentFlyCol) + col ;
-    gameOver(newFlyCol);
+    if(newFlyCol >= itemColGameEnd){
+      itemColGameEnd = newFlyCol;
+      console.log(itemColGameEnd);
+    }
+    gameOver();
     console.log("Fly col" ,newFlyCol)
     document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
     document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
