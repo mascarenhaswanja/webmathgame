@@ -9,7 +9,8 @@ let score = 0
 let fly = []
 const x = document.body.clientWidth;
 const y = document.body.clientHeight;
-
+const level = 1; 
+let timeleft = 60; 
 
 
 const startGame = () => {
@@ -35,7 +36,7 @@ const generateQuestion= () => {
         let question = ""
             const first = Math.floor((Math.random() * 15) + 1)
             const second = Math.floor((Math.random() * 10) + 1)
-            question = `${parseInt(first)} * ${parseInt(second)}`
+            question = `${parseInt(first)} x ${parseInt(second)} = ?`
     
     return question
 }
@@ -80,7 +81,7 @@ const initalSetup = () => {
 }
 let itemColGameEnd = 0
 const gameOver = () => {
-  if(itemColGameEnd === 20){
+  if(itemColGameEnd === 20 || timeleft === 0){
      //game over
       console.log("Game over");
       clearInterval(trigger)
@@ -96,15 +97,13 @@ const changeFlyLocation = (col) => {
     if(newFlyCol >= itemColGameEnd){
       itemColGameEnd = newFlyCol;
       console.log(itemColGameEnd);
+      gameOver();
     }
-    gameOver();
-    console.log("Fly col" ,newFlyCol)
-    document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
-    document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
-  // }
-
-
-
+    if(newFlyCol <= 20){
+      console.log("Fly col" ,newFlyCol)
+      document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
+      document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
+    }
 
 }
 
@@ -172,4 +171,27 @@ const checkAnswer = () => {
   console.log(question);
 }
 
+
+
+const timer = () => {
+  var downloadTimer = setInterval(function(){
+  if(timeleft <= 0){
+    clearInterval(downloadTimer);
+  }else{
+    timeleft -= 1;
+  }
+  document.querySelector("#remaining").innerText = timeleft;
+}, 1000);
+}
+
+timer();
 gameLogic();
+
+const removeFlyOnCorrectAnswer = (fly_id) => {
+  document.querySelector(`#fly-${fly_id}`).innerHTML = ""
+}
+
+const setLevel = (level) => {
+  document.querySelector("#level").innerText = level;
+}
+setLevel()
