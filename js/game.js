@@ -7,6 +7,10 @@ let player
 // let question = []
 let score = 0
 let fly = []
+const x = document.body.clientWidth;
+const y = document.body.clientHeight;
+
+
 
 const startGame = () => {
     console.log("Start Game");
@@ -53,26 +57,118 @@ startGame()
 
 
 /// new code -- mayank
+
+
 const initalSetup = () => {
   document.querySelector(".game").innerHTML = `
-  <img  class="img-frog location-col-5 location-row-3" src="assets/img/frog_new.png">
+  <img  class="img-frog" src="assets/img/frog_new.png">
   `
+  document.querySelector(".img-frog").style.gridColumn = '50';
+  document.querySelector(".img-frog").style.gridRow = '3';  
   for(let i = 0; i< 5; i++){
     document.querySelector(".game").innerHTML += `
-  <div class="location-col-1 ">
-  <img  class="img-fly" src="assets/img/fly.png">
+  <div class="location-col-1 " id="fly-${i+1}">
+  <img   class="img-fly" src="assets/img/fly.png">
   <p class="fly-question-box">${generateQuestion()}</p>
   </div>
   `
   }
+
   
 }
 
-const changeFlyLocation = (row,col) => {
-  document.querySelector("img-fly").className = `location-row-${row}   location-col-${col}`;
-}
-const changeFrogLocation = (row) => {
-  document.querySelector("img-frog").className += `location-row-${row} `;
-}
-initalSetup()
+const changeFlyLocation = (col) => {
+  let selectedFly = Math.floor(Math.random() * 5) + 1;
+  let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
 
+  if(currentFlyCol === ""){
+      document.querySelector(`#fly-${selectedFly}`).style.gridColumn = "1";
+      document.querySelector(`#fly-${selectedFly}`).style.gridRow = `${selectedFly}`;
+  }else{
+    let newFlyCol = parseInt(currentFlyCol) + col ;
+    gameOver(newFlyCol);
+    console.log("Fly col" ,newFlyCol)
+    document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
+    document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
+  }
+
+
+
+
+}
+
+const changeFrogLocation = (row) => {
+  document.querySelector(".img-frog").style.gridRow = row;
+}
+
+const randomSpeed = () => {
+  const speed = Math.floor(Math.random() * 4) + 1;
+  return speed;
+
+}
+const gameFlyLocation = () => {
+    let col = randomSpeed();
+    changeFlyLocation(col)
+}
+
+initalSetup()
+gameFlyLocation()
+var trigger ;
+
+const gameLogic = () => {
+  trigger = setInterval(gameFlyLocation,1000);
+}
+
+const gameOver = (itemCol) => {
+    if(itemCol == 50){
+      //game over
+      console.log("Game over");
+    clearInterval(trigger)
+      }else{
+      return;
+    }
+
+
+}
+let currentFrogRow = 3;
+  document.onkeydown = function (event) {
+  
+      switch (event.keyCode) {
+        case 38:
+           //console.log("Up key is pressed.");
+           if(currentFrogRow <= 1){
+             return;
+           }else{
+            currentFrogRow -= 1;
+            changeFrogLocation(currentFrogRow)
+           }
+           
+           break;
+        case 40:
+           //console.log("Down key is pressed.");
+           if(currentFrogRow >= 5){
+             return;
+           }else{
+            currentFrogRow += 1;
+            changeFrogLocation(currentFrogRow)
+           }
+        
+           break;
+
+        case 32:
+          //console.log("Space bar pressed");
+          checkAnswer();
+          break;
+     }
+    
+   
+ };
+
+const checkAnswer = () => {
+  let frogRow = document.querySelector(".img-frog").style.gridRow
+  let flyRow = document.querySelector(`#fly-${frogRow.charAt(0)}`)
+  let question = flyRow.querySelector(".fly-question-box").innerText
+  console.log(question);
+}
+
+gameLogic();
