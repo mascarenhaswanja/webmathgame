@@ -10,8 +10,6 @@ let fly = []
 const x = document.body.clientWidth;
 const y = document.body.clientHeight;
 
-
-
 const startGame = () => {
     console.log("Start Game");
     /* @TODO: In each level, enemies move from left to right at random speeds.
@@ -72,8 +70,8 @@ const initalSetup = () => {
   <div class="location-col-1 " id="fly-${i+1}">
   <img   class="img-fly" src="assets/img/fly.png">
   <p class="fly-question-box">${question}</p>
-  </div>
   `
+
   document.querySelector(`#fly-${i+1}`).style.gridColumn = '1'
   document.querySelector(`#fly-${i+1}`).style.gridRow = `${i+1}`
 
@@ -108,6 +106,16 @@ const gameOver = () => {
 
       document.querySelector("button").classList.remove("hidden")
 
+    }else{
+    return
+  }
+}
+  
+const gameOver = () => {
+  if(itemColGameEnd === 20 || timeleft === 0 || level >= 5){
+     //game over
+      console.log("Game over");
+      clearInterval(trigger)
     }else{
     return;
   }
