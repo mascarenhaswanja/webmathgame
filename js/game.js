@@ -9,8 +9,7 @@ let score = 0
 let fly = []
 const x = document.body.clientWidth;
 const y = document.body.clientHeight;
-const level = 1; 
-let timeleft = 60; 
+
 
 
 const startGame = () => {
@@ -59,6 +58,10 @@ startGame()
 
 /// new code -- mayank
 
+const level = 0; 
+let timeleft = 60; 
+var trigger ;
+let itemColGameEnd = 0
 
 const initalSetup = () => {
   document.querySelector(".game").innerHTML = `
@@ -79,9 +82,8 @@ const initalSetup = () => {
 
   
 }
-let itemColGameEnd = 0
 const gameOver = () => {
-  if(itemColGameEnd === 20 || timeleft === 0){
+  if(itemColGameEnd === 20 || timeleft === 0 || level >= 5){
      //game over
       console.log("Game over");
       clearInterval(trigger)
@@ -106,11 +108,9 @@ const changeFlyLocation = (col) => {
     }
 
 }
-
 const changeFrogLocation = (row) => {
   document.querySelector(".img-frog").style.gridRow = row;
 }
-
 const randomSpeed = () => {
   const speed = Math.floor(Math.random() * 4) + 1;
   return speed;
@@ -121,11 +121,10 @@ const gameFlyLocation = () => {
     changeFlyLocation(col)
 }
 
-initalSetup()
-gameFlyLocation()
-var trigger ;
-
 const gameLogic = () => {
+  timer();
+  initalSetup();
+  gameFlyLocation();
   trigger = setInterval(gameFlyLocation,1000);
 }
 
@@ -163,16 +162,13 @@ let currentFrogRow = 3;
     
    
  };
-
 const checkAnswer = () => {
   let frogRow = document.querySelector(".img-frog").style.gridRow
   let flyRow = document.querySelector(`#fly-${frogRow.charAt(0)}`)
   let question = flyRow.querySelector(".fly-question-box").innerText
+  removeFlyOnCorrectAnswer(frogRow.charAt(0));
   console.log(question);
 }
-
-
-
 const timer = () => {
   var downloadTimer = setInterval(function(){
   if(timeleft <= 0){
@@ -184,8 +180,7 @@ const timer = () => {
 }, 1000);
 }
 
-timer();
-gameLogic();
+// gameLogic();
 
 const removeFlyOnCorrectAnswer = (fly_id) => {
   document.querySelector(`#fly-${fly_id}`).innerHTML = ""
@@ -193,5 +188,18 @@ const removeFlyOnCorrectAnswer = (fly_id) => {
 
 const setLevel = (level) => {
   document.querySelector("#level").innerText = level;
+  let checkIfFlyExist = document.querySelector(".img-fly")
+  if(checkIfFlyExist == ""){
+     if(level >= 5){
+       gameOver();
+     }else{
+       
+     }
+  }else{
+    level += 1;
+    gameLogic();
+    //need to fix running after level clearance
+    
+  }
 }
-setLevel()
+setLevel(1);
