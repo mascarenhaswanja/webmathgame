@@ -89,7 +89,7 @@ a {
 }
 
 .fly-question-box {
-    width: 70px;
+    width: auto;
     height: auto;
     background-color:green;
     text-decoration: honeydew;
@@ -108,6 +108,15 @@ a {
     height: 50px;
     padding: 20px; 
     vertical-align: auto;
+}
+.frog-answer-box {
+    width: auto;
+    height: auto;
+    background-color:green;
+    text-decoration: honeydew;
+    font-size: 15px;
+    text-align: center;
+    margin: 0;
 }
 
 .results {
