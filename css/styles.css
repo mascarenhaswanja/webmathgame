@@ -3,6 +3,7 @@ body {
     padding: 0;
     display: block;
     overflow: auto;
+    position: relative;
 }
 .menu {
     margin: 0 ;
@@ -152,7 +153,27 @@ ul {
     font-size: 20px;
     display: inline;
 }
+.game-over-container {
+    width: 100%;
+    background-color: #00003384;
+    height: 50%;
+    position: absolute;
+
+}
+.game-over {
+    color: wheat;
+    font-size: 5.2em;
+    padding: 0;
+    margin : 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-transform: uppercase;
+}
 
 .hidden {
     display:none;
+}
+
+.level-game-over {
+    
 }

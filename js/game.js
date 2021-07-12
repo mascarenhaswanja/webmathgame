@@ -1,23 +1,5 @@
-console.log("Output - Expert Math Frog");
-/* players have 60 seconds to correctly answer a series of math multiplication questions. Correctly answering a question advances the user to the next level. To win the game, the player must successfully defeat 5 levels of the game within the specified time
-*/
-//@TODO: Implement DB player x score
-
 let player
 // let question = []
-let score = 0
-let fly = []
-const x = document.body.clientWidth;
-const y = document.body.clientHeight;
-
-const startGame = () => {
-    console.log("Start Game");
-    /* @TODO: In each level, enemies move from left to right at random speeds.
-     Some enemies will move faster; others will move slower. */
-    for (let i = 0; i < 5; i++) {
-        fly.push(new Fly(10))
-    }
-}
 
 let level = 1; 
 let timeleft = 60; 
@@ -29,98 +11,112 @@ let currentFrogRow = 3;
 let answerArray = new Array();
 let questionArray = new Array();
 let currentAnswerLocation = 0;
-let answerSetUp = [2,5,1,4,3];
+let answerSetUp = [1,4,3,0,2];
 
 /*  For each row generate the question with random numbers
 Each multiplication question must consist of two randomly generated numbers.
   The first number must be between 1-15.
   The second number must be a value between 1-10.
 */ 
+class Score {
+  constructor(name, level){
+    this.gName = name;
+    this.gLevel = level;
+  }
+}
+
+const savePlayerData = () => {
+
+  let highscoreArray = new Array();
+  let playerName = "Mayank"
+  if("highscore" in localStorage){
+    highscoreArray = JSON.parse(localStorage.getItem('highscore'));
+    const scoreItem = new Score(playerName,level);
+    highscoreArray.push(scoreItem);
+    localStorage.setItem('highscore', JSON.stringify(highscoreArray));
+  }else{
+    const scoreItem = new Score(playerName,level);
+    highscoreArray.push(scoreItem);
+    localStorage.setItem('highscore', JSON.stringify(highscoreArray));
+  }
+};
 const generateQuestion= () => {
         // generate different questions for each level
 
         let question = ""
-            const first = Math.floor((Math.random() * 15) + 1)
-            const second = Math.floor((Math.random() * 10) + 1)
-            question = `${parseInt(first)} x ${parseInt(second)} = ?`
-            result = first * second
-
-    return [question,result]
-}
+            const first = parseInt(Math.floor((Math.random() * 15) + 1));
+            const second = parseInt(Math.floor((Math.random() * 10) + 1));
+            
+            question = `${first} x ${second} = ?`;
+            questionArray.push(question)
+            answerArray.push(first*second);
+    
+    return question
+};
 /// new code -- mayank
 
 
 
 const initalSetup = () => {
-  const selectedQuestion = Math.floor((Math.random() * 5))
-  let selectedResult
-
+  for(i = 0; i<5 ; i++){
+    generateQuestion();
+  }
+  console.log("Answer ",answerArray);
+  console.log("Questn ",questionArray);
+  document.querySelector(".game").innerHTML = `
+  <div id="frog">
+  <img class="img-frog" src="assets/img/frog_new.png">
+  <p class="frog-answer-box">${answerArray[answerSetUp[currentAnswerLocation]]}</p>
+  </div>
+  `
+  console.log("answer inital frog ",answerSetUp[currentAnswerLocation]);
+  document.querySelector("#frog").style.gridColumn = '20';
+  document.querySelector("#frog").style.gridRow = '3';  
   for(let i = 0; i< 5; i++){
-    let [question, result] = generateQuestion()
     document.querySelector(".game").innerHTML += `
   <div class="location-col-1" id="fly-${i+1}">
   <img   class="img-fly" src="assets/img/fly.png">
-  <p class="fly-question-box">${question}</p>
-  `
-
-  document.querySelector(`#fly-${i+1}`).style.gridColumn = '1'
-  document.querySelector(`#fly-${i+1}`).style.gridRow = `${i+1}`
-
-    if (i === selectedQuestion) {
-      selectedResult = result
-    }
-  }
-
-  // document.querySelector(".game").innerHTML = `
-  // <img  class="img-frog" src="assets/img/frog_new.png">
-  // `
-  document.querySelector(".game").innerHTML += `
-  <div class="frog">
-    <img class="img-frog" src="assets/img/frog_new.png">
-    <div class="frog-answer-box">${selectedResult}</div>
+  <p class="fly-question-box" id="fly-quesiton-${i+1}">${questionArray[i]}</p>
   </div>
   `
-  document.querySelector(".frog").style.gridColumn = '20'
-  document.querySelector(".frog").style.gridRow = '3'
-  // document.querySelector(".img-frog").style.gridColumn = '20';
-  // document.querySelector(".img-frog").style.gridRow = '3';  
-}
+  document.querySelector(`#fly-${i+1}`).style.gridColumn = '1'
+  document.querySelector(`#fly-${i+1}`).style.gridRow = `${i+1}`
+  }
+
+  
+};
+
+const setFrogAnswer = () => {
+  document.querySelector(".frog-answer-box").innerText = answerArray[answerSetUp[currentAnswerLocation]]
+};
 const gameOver = () => {
   if(itemColGameEnd >= 20 || timeleft === 0 || level > 5){
      //game over
       console.log("Game over");
       clearInterval(trigger)
-      document.querySelector(".game-over").innerText = "GAME OVER"
-
-      document.querySelector(".game-over").style.color = "wheat"
-      document.querySelector(".game-over").style.size = "200px"
-
-      document.querySelector("button").classList.remove("hidden")
-
-    }else{
-    return
-  }
-}
-  
-const gameOver = () => {
-  if(itemColGameEnd === 20 || timeleft === 0 || level >= 5){
-     //game over
-      console.log("Game over");
-      clearInterval(trigger)
-    }else{
-    return;
-  }
+      clearInterval(timerVar);
+      savePlayerData();
+      displayGameOver();
+    }
 };
 const changeFlyLocation = (col) => {
     let selectedFly = Math.floor(Math.random() * 5) + 1;
+    // let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
     let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
+
     
     let newFlyCol = parseInt(currentFlyCol) + col ;
-    if(newFlyCol >= itemColGameEnd){
+    if(newFlyCol >= 20){
       itemColGameEnd = newFlyCol;
+      console.log("Item Col End",itemColGameEnd);
+      console.log("game over newFlyCol",newFlyCol);
+
       gameOver();
     }
-    if(newFlyCol <= 20){
+    if(newFlyCol < 20 ){
+      console.log("---Item Col End",itemColGameEnd);
+      console.log("---game continue newFlyCol",newFlyCol);
+
       document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
       document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
     }
@@ -176,25 +172,39 @@ const startGame = () => {
     
    
  };
+
+ changeQuestion = (loc) => {
+   const first = parseInt(Math.floor((Math.random() * 15) + 1));
+   const second = parseInt(Math.floor((Math.random() * 10) + 1));
+   
+   const newQuestion = `${first} x ${second} = ?`;
+   const newAnswer = first*second;
+   questionArray[loc-1] = newQuestion;
+   answerArray[loc-1] = newAnswer;
+   document.querySelector(`#fly-quesiton-${loc}`).innerHTML = newQuestion
+
+ };
+
 const checkAnswer = () => {
   let frogRow = document.querySelector("#frog").style.gridRow
   console.log(document.querySelector(".frog-answer-box").innerText)
-  let flyRow = document.querySelector(`#fly-${frogRow.charAt(0)}`)
-  let answerForFly = answerArray[frogRow.charAt(0) - 1];
-  console.log("answer for fly", answerForFly);
-  console.log("answer", answerArray[currentAnswerLocation]);
+  let currentFlyLocation = frogRow.charAt(0)
+  let flyRow = document.querySelector(`#fly-${currentFlyLocation}`)
+  let answerForFly = answerArray[currentFlyLocation - 1];
 
-  if(answerForFly === answerArray[currentAnswerLocation]){
+
+  if(answerForFly === answerArray[answerSetUp[currentAnswerLocation]]){
     console.log("Correct answer");
     currentAnswerLocation += 1;
     setFrogAnswer();
+    removeFlyOnCorrectAnswer(currentFlyLocation);
 
   }else{
     console.log("incorrect answer");
-  }
-  console.log(answerForFly);
+    changeQuestion(currentFlyLocation);
 
-  removeFlyOnCorrectAnswer(frogRow.charAt(0));
+  }
+
 };
 const timer = () => {
   timerVar = setInterval(function(){
@@ -208,23 +218,39 @@ const timer = () => {
 };
 const removeFlyOnCorrectAnswer = (fly_id) => {
   document.querySelector(`#fly-${fly_id}`).innerHTML = ""
+  document.querySelector(`#fly-${fly_id}`).gridColumn = ""
+  document.querySelector(`#fly-${fly_id}`).gridRow = ""
+
 };
 
 const checkIfLevelCleared = () => {
   let checkIfFlyExist = document.querySelector(".img-fly")
-  if(checkIfFlyExist == null && level <5 ){
+  if(checkIfFlyExist === null && level <5 ){
     startGame();
     level += 1;
     document.querySelector("#level").innerText = level;
 
-  }else{
-
-    console.log("max level reached")
+  }else if(level > 5){
+    console.log("max level reached" , level)
     gameOver();
     return;
   }
-}
+};
 
 timer();
 
 startGame();
+
+const displayGameOver = () => {
+  document.querySelector(".game-over-container").classList.remove("hidden")
+  document.querySelector("#play-again").addEventListener("click", () => {
+    startGame();
+    document.querySelector(".game-over-container").classList.add("hidden");
+  })
+  document.querySelector("#high-scores").addEventListener("click", () => {
+    location.replace("scores.html")
+
+  })
+  document.querySelector("#level-game-over").innerText = level
+};
+
