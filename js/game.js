@@ -99,6 +99,7 @@ const gameOver = () => {
       clearInterval(timerVar);
       savePlayerData();
       displayGameOver();
+      document.onkeydown = ""
     }
 };
 const changeFlyLocation = (col) => {
