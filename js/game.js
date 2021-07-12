@@ -12,6 +12,7 @@ let answerArray = new Array();
 let questionArray = new Array();
 let currentAnswerLocation = 0;
 let answerSetUp = [1,4,3,0,2];
+let boolGameOver = false;
 
 /*  For each row generate the question with random numbers
 Each multiplication question must consist of two randomly generated numbers.
@@ -93,6 +94,7 @@ const gameOver = () => {
   if(itemColGameEnd >= 20 || timeleft === 0 || level > 5){
      //game over
       console.log("Game over");
+      boolGameOver = true;
       clearInterval(trigger)
       clearInterval(timerVar);
       savePlayerData();
@@ -102,24 +104,23 @@ const gameOver = () => {
 const changeFlyLocation = (col) => {
     let selectedFly = Math.floor(Math.random() * 5) + 1;
     // let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
-    let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
+    let fly = document.querySelector(`#fly-${selectedFly}`)
+    if(fly != null && boolGameOver === false){
+      let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
 
     
-    let newFlyCol = parseInt(currentFlyCol) + col ;
-    if(newFlyCol >= 20){
-      itemColGameEnd = newFlyCol;
-      console.log("Item Col End",itemColGameEnd);
-      console.log("game over newFlyCol",newFlyCol);
-
-      gameOver();
+      let newFlyCol = parseInt(currentFlyCol) + col ;
+      if(newFlyCol >= 20){
+        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `20`;
+        itemColGameEnd = newFlyCol;
+        gameOver();
+      }
+      if(newFlyCol < 20 ){
+        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
+        document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
+      }
     }
-    if(newFlyCol < 20 ){
-      console.log("---Item Col End",itemColGameEnd);
-      console.log("---game continue newFlyCol",newFlyCol);
-
-      document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
-      document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
-    }
+   
 
 };
 const changeFrogLocation = (row) => {
@@ -136,7 +137,7 @@ const startGame = () => {
   answerArray = [];
   currentAnswerLocation = 0;
   initalSetup();
-  trigger = setInterval(animateFly,1000);
+  trigger = setInterval(animateFly,800);
 };
   document.onkeydown = function (event) {
   
@@ -219,7 +220,7 @@ const timer = () => {
 const removeFlyOnCorrectAnswer = (fly_id) => {
   document.querySelector(`#fly-${fly_id}`).innerHTML = ""
   document.querySelector(`#fly-${fly_id}`).gridColumn = ""
-  document.querySelector(`#fly-${fly_id}`).gridRow = ""
+  document.querySelector(`#fly-${fly_id}`).id = ""
 
 };
 
