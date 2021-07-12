@@ -266,7 +266,12 @@ const gameStatus = (status) => {
     location.replace("scores.html")
 
   })
-  document.querySelector("#level-game-over").innerText = level
+  if(level == 6){
+    document.querySelector("#level-game-over").innerText = 5
+  }else{
+    document.querySelector("#level-game-over").innerText = level
+
+  }
 };
 
 timer();
