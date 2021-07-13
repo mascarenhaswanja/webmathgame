@@ -14,15 +14,11 @@ let currentAnswerLocation = 0;
 let answerSetUp = new Array();
 let boolGameOver = false;
 
-const generateRandomAnswers = () => {
-do {
+const generateRandomAnswer = () => {
+
   const number = parseInt(Math.floor((Math.random() * 5) + 0));
-    if(!answerSetUp.includes(number)){
-      answerSetUp.push(number);
-    }
-    console.log("Answer set",answerSetUp);
-    console.log("Array length", answerSetUp.length)
-} while (answerSetUp.length < 5);
+ 
+return number;
 }
 /*  For each row generate the question with random numbers
 Each multiplication question must consist of two randomly generated numbers.
@@ -72,16 +68,15 @@ const initalSetup = () => {
   for(i = 0; i<5 ; i++){
     generateQuestion();
   }
-  generateRandomAnswers();
+  currentAnswerLocation = generateRandomAnswer();
   console.log("Answer ",answerArray);
   console.log("Questn ",questionArray);
   document.querySelector(".game").innerHTML = `
   <div id="frog">
   <img class="img-frog" src="assets/img/frog_new.png">
-  <p class="frog-answer-box">${answerArray[answerSetUp[currentAnswerLocation]]}</p>
+  <p class="frog-answer-box">${answerArray[currentAnswerLocation]}</p>
   </div>
   `
-  console.log("answer inital frog ",answerSetUp[currentAnswerLocation]);
   document.querySelector("#frog").style.gridColumn = '20';
   document.querySelector("#frog").style.gridRow = '3';  
   for(let i = 0; i< 5; i++){
@@ -97,7 +92,7 @@ const initalSetup = () => {
 };
 
 const setFrogAnswer = () => {
-  document.querySelector(".frog-answer-box").innerText = answerArray[answerSetUp[currentAnswerLocation]]
+  document.querySelector(".frog-answer-box").innerText = answerArray[currentAnswerLocation]
 };
 const gameOver = () => {
       boolGameOver = true;
@@ -175,9 +170,9 @@ const setKeyDown = () => {
 
       case 32:
         //console.log("Space bar pressed");
-        checkAnswer();
+        let boolAnswer = checkAnswer();
         setFrogAnswer();
-        checkIfLevelCleared();
+        checkIfLevelCleared(boolAnswer);
         break;
    }
   
@@ -196,25 +191,26 @@ const changeQuestion = (loc) => {
 
  };
 const checkAnswer = () => {
+  let boolCorrect = false;
   let frogRow = document.querySelector("#frog").style.gridRow
   console.log(document.querySelector(".frog-answer-box").innerText)
   let currentFlyLocation = frogRow.charAt(0)
-  let flyRow = document.querySelector(`#fly-${currentFlyLocation}`)
   let answerForFly = answerArray[currentFlyLocation - 1];
 
 
-  if(answerForFly === answerArray[answerSetUp[currentAnswerLocation]]){
+  if(answerForFly === answerArray[currentAnswerLocation]){
     console.log("Correct answer");
     currentAnswerLocation += 1;
     setFrogAnswer();
     removeFlyOnCorrectAnswer(currentFlyLocation);
+    boolCorrect = true;
 
   }else{
     console.log("incorrect answer");
     changeQuestion(currentFlyLocation);
-
+    boolCorrect = false;
   }
-
+return boolCorrect;
 };
 const timer = () => {
   clearInterval(timerVar);
@@ -235,10 +231,11 @@ const removeFlyOnCorrectAnswer = (fly_id) => {
 
 };
 
-const checkIfLevelCleared = () => {
-  let checkIfFlyExist = document.querySelector(".img-fly")
+const checkIfLevelCleared = (correctAnswer) => {
+  // let checkIfFlyExist = document.querySelector(".img-fly")
 
-  if(checkIfFlyExist === null && level <5 ){
+  // if(checkIfFlyExist === null && level <5 ){
+    if( level <5 && correctAnswer){
     startGame();
     setFrogAnswer();
     level += 1;
@@ -249,17 +246,15 @@ const checkIfLevelCleared = () => {
       level = 6;
     }
 
-  }else if(checkIfFlyExist === null && level > 5 ){
-      level = 5;
-      document.querySelector(".frog-answer-box").innerText = "I am full!"
-      console.log("game won", checkIfFlyExist);
-      gameStatus("You win!")
+  // }else if(checkIfFlyExist === null && level > 5 ){
+  }else if( level > 5 && correctAnswer){
       boolGameOver = true;
+      clearInterval(timerVar);
+      document.querySelector(".frog-answer-box").innerText = "I am full!"
+      gameStatus("You win!")
       timeleft = 0;
       savePlayerData();
-      clearInterval(timerVar);
-      level = 1;
-      document.onkeydown = ""
+      document.onkeydown = "";
   }
 };
 const gameStatus = (status) => {
@@ -277,6 +272,11 @@ const gameStatus = (status) => {
     location.replace("scores.html")
 
   })
+  document.querySelector("#home").addEventListener("click", () => {
+    location.replace("index.html")
+
+  })
+  console.log("Level game status" , level)
   if(level == 6){
     document.querySelector("#level-game-over").innerText = 5
   }else{
