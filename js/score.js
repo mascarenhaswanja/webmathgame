@@ -15,13 +15,14 @@ const recoveryScore = () => {
     for (i = 0; i < highscoreArray.length; i++) {
       console.log(i+1, " - " + highscoreArray[i].gName + " " + highscoreArray[i].gLevel)
       document.querySelector(".score").innerHTML += `
-        <li>${i+1}. ${highscoreArray[i].gName} - Level ${highscoreArray[i].gLevel}</li>`
+        <li>${i+1}.  ${highscoreArray[i].gName} - Level ${highscoreArray[i].gLevel}</li>`
     }
-    document.querySelector(".score").innerHTML += `</ul>`
-      
+    document.querySelector(".score").innerHTML += `</ul>`  
   }
   else {
     console.log("No Score saved yet ", highscoreArray)
+    document.querySelector(".score").innerHTML = `<p>
+    No Score saved yet</p>`
   }
 }
 

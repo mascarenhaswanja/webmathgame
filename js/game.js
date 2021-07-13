@@ -43,14 +43,28 @@ const savePlayerData = () => {
   console.log("Player ", playerName)
 
   if("highscore" in localStorage){
-    highscoreArray = JSON.parse(localStorage.getItem('highscore'));
-    const scoreItem = new Score(playerName,level);
-    highscoreArray.push(scoreItem);
-    localStorage.setItem('highscore', JSON.stringify(highscoreArray));
-  }else{
-    const scoreItem = new Score(playerName,level);
-    highscoreArray.push(scoreItem);
-    localStorage.setItem('highscore', JSON.stringify(highscoreArray));
+    highscoreArray = JSON.parse(localStorage.getItem('highscore'))
+    const scoreItem = new Score(playerName,level)
+    if (highscoreArray.some(elem => elem.gLevel === scoreItem.gLevel)) {
+      var indexOfObjToInsert = highscoreArray.findIndex(elem =>  elem.gLevel === scoreItem.gLevel)
+      highscoreArray.splice(1, 0, scoreItem);
+      console.log("After splice  ", highscoreArray)
+      //Level is already present in the list, re arrange 
+      
+      console.log("indexOfObjToInsert ", indexOfObjToInsert)
+    } else { 
+      // Update in descrescent order
+      highscoreArray.push(scoreItem)
+      highscoreArray.sort()
+      highscoreArray.sort(function(a,b) { return a.scoreItem.gLevel.valueOf() < b.scoreItem.gLevel.valueOf();});
+
+      console.log("After sort  ", highscoreArray)
+      localStorage.setItem('highscore', JSON.stringify(highscoreArray))
+    } 
+  } else {
+    const scoreItem = new Score(playerName,level)
+    highscoreArray.push(scoreItem)
+    localStorage.setItem('highscore', JSON.stringify(highscoreArray))
   }
 }
 

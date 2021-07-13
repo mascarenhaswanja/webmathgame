@@ -137,21 +137,16 @@ a {
     border-radius: 30px;
 }
 
-/* ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  } */
-li {
+.score > li {
     list-style-type: none;
     padding: 10px;
 }
 
-  .game {
+.game {
     display: grid;
     grid-template-columns: repeat( 20 , 2fr);
     grid-template-rows: repeat(5, 90px);
-  }
+}
 
 
 .game-over-container {
