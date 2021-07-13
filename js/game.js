@@ -11,9 +11,19 @@ let currentFrogRow = 3;
 let answerArray = new Array();
 let questionArray = new Array();
 let currentAnswerLocation = 0;
-let answerSetUp = [1,4,3,0,2];
+let answerSetUp = new Array();
 let boolGameOver = false;
 
+const generateRandomAnswers = () => {
+do {
+  const number = parseInt(Math.floor((Math.random() * 5) + 0));
+    if(!answerSetUp.includes(number)){
+      answerSetUp.push(number);
+    }
+    console.log("Answer set",answerSetUp);
+    console.log("Array length", answerSetUp.length)
+} while (answerSetUp.length < 5);
+}
 /*  For each row generate the question with random numbers
 Each multiplication question must consist of two randomly generated numbers.
   The first number must be between 1-15.
@@ -62,6 +72,7 @@ const initalSetup = () => {
   for(i = 0; i<5 ; i++){
     generateQuestion();
   }
+  generateRandomAnswers();
   console.log("Answer ",answerArray);
   console.log("Questn ",questionArray);
   document.querySelector(".game").innerHTML = `
