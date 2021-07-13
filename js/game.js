@@ -279,6 +279,7 @@ const gameStatus = (status) => {
   console.log("Level game status" , level)
   if(level == 6){
     document.querySelector("#level-game-over").innerText = 5
+    level = 1;
   }else{
     document.querySelector("#level-game-over").innerText = level
 
