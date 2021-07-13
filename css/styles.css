@@ -137,11 +137,15 @@ a {
     border-radius: 30px;
 }
 
-ul {
+/* ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-  }
+  } */
+li {
+    list-style-type: none;
+    padding: 10px;
+}
 
   .game {
     display: grid;

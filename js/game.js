@@ -37,9 +37,11 @@ class Score {
 }
 
 const savePlayerData = () => {
-
   let highscoreArray = new Array();
-  let playerName = "Mayank"
+  let playerName = localStorage.getItem("playerName")
+
+  console.log("Player ", playerName)
+
   if("highscore" in localStorage){
     highscoreArray = JSON.parse(localStorage.getItem('highscore'));
     const scoreItem = new Score(playerName,level);
@@ -50,7 +52,8 @@ const savePlayerData = () => {
     highscoreArray.push(scoreItem);
     localStorage.setItem('highscore', JSON.stringify(highscoreArray));
   }
-};
+}
+
 const generateQuestion= () => {
         // generate different questions for each level
 
@@ -64,9 +67,6 @@ const generateQuestion= () => {
     
     return question
 };
-/// new code -- mayank
-
-
 
 const initalSetup = () => {
   for(i = 0; i<5 ; i++){
