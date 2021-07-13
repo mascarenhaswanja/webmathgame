@@ -10,7 +10,15 @@
 <body>
     <div class="menu">
         <h1>Feed the frog</h1>
-        <!-- <canvas id="myCanvas" width="480" height="320"></canvas> -->
+      
+        <p id="player"></p>
+
+        <div class="game-over-container hidden">
+            <p class="game-over">Game over</p>
+            <button id="play-again">Play Again</button>
+            <button id="high-scores">High Scores</button>
+            <p>Level reached : <span id="level-game-over">1</span></p>
+        </div>
 
         <section class="game">
         <!-- add flys dinamically - different times -->
@@ -19,10 +27,6 @@
             <p>Level <span id="level">1</span> of 5</p>
             <p>Time Remaining: <span id="remaining">60</span> seconds</p>
         </div>
-
-        <div class="game-over"></div>
-
-        <button class="hidden">Play Again</button>
         
     </div>
 

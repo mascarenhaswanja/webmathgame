@@ -7,13 +7,28 @@ const initializeSelectors = () => {
     document.querySelector("#btn-start").addEventListener("click",startGame)
     document.querySelector("#btn-rules").addEventListener("click",viewRules)
     document.querySelector("#btn-scores").addEventListener("click",viewScores)
-    document.querySelector("#btn-nomusic").addEventListener("click",playMusic)
+    document.querySelector("#btn-music").addEventListener("click",playMusic)
+    document.querySelector("input").addEventListener("mouseenter",clearPlayer)
     console.log("Initialize")
 }
 
+const clearPlayer = () => {
+    document.getElementById("player").value = ""
+    document.querySelector(".output").innerHTML = ""
+}
+
 const startGame = () => {
-    console.log("Go to game - next page");
-    location.replace("play.html")
+    let playerName = document.getElementById("player").value
+    console.log("startGame Name = ", playerName)
+
+    if (playerName === "") {
+        document.querySelector(".output").innerHTML = `
+            <p>You must provide the name to start the game</p>
+        `
+    } else { 
+        localStorage.setItem("playerName",playerName)
+        location.replace("play.html")
+    }
 }
  
 const viewRules = () => {
@@ -29,6 +44,5 @@ const viewScores = () => {
 const playMusic = () => {
     console.log("Play Music");
 }
-
 
 initializeSelectors()
