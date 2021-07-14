@@ -6,7 +6,7 @@ let itemColGameEnd = 0
 let currentFrogRow = 3
 let answerArray = new Array()
 let questionArray = new Array()
-let currentAnswerLocation = 0
+let currentAnswerLocation = 4
 let answerSetUp = new Array()
 let boolGameOver = false
 let musicOn = false
@@ -14,6 +14,7 @@ let musicOn = false
 const generateRandomAnswer = () => {
 
   const number = parseInt(Math.floor((Math.random() * 5) + 0))
+  console.log("Random answer level",number);
  
 return number
 }
@@ -25,10 +26,10 @@ class Score {
   }
 }
 
-const savePlayerData = () => {
+const savePlayerData = (level_num) => {
   let highscoreArray = new Array()
   let playerName = localStorage.getItem("playerName")
-  const scoreItem = new Score(playerName,level)
+  const scoreItem = new Score(playerName,level_num)
 
   if("highscore" in localStorage) {
     highscoreArray = JSON.parse(localStorage.getItem('highscore'))  
@@ -61,11 +62,11 @@ const generateQuestion= () => {
 
 const initalSetup = () => {
   for(i = 0; i<5 ; i++){
-    generateQuestion()
-  }
-  currentAnswerLocation = generateRandomAnswer()
-  console.log("Answer ",answerArray)
-  console.log("Questn ",questionArray)
+    generateQuestion();
+  };
+
+  console.log("Random amnswer inital setup",currentAnswerLocation);
+
   document.querySelector(".game").innerHTML = `
   <div id="frog">
   <img class="img-frog" src="assets/img/frog_new.png">
@@ -93,11 +94,15 @@ const setFrogAnswer = () => {
 const gameOver = () => {
       boolGameOver = true
       timeleft = 0
-      savePlayerData()
       gameStatus("Game over!")
       clearInterval(timerVar)
       level = 1
       document.onkeydown = ""
+      if(level == 6){
+        savePlayerData(5)
+      }else{
+        savePlayerData(level)
+      }
 }
 
 const changeFlyLocation = (col) => {
@@ -130,8 +135,7 @@ const animateFly = () => {
 const startGame = () => {
   questionArray = []
   answerArray = []
-  initalSetup()
-  currentAnswerLocation = 0
+  initalSetup();
   setKeyDown()
   boolGameOver = false
   clearInterval(trigger)
@@ -171,37 +175,43 @@ const setKeyDown = () => {
   }
 }
 const changeQuestion = (loc) => {
-   const first = parseInt(Math.floor((Math.random() * 15) + 1))
-   const second = parseInt(Math.floor((Math.random() * 10) + 1))
+  questionArray = [];
+  answerArray = [];
+  for(i = 1 ; i<6 ; i++){
+    const first = parseInt(Math.floor((Math.random() * 15) + 1))
+    const second = parseInt(Math.floor((Math.random() * 10) + 1))
+    
+    const newQuestion = `${first} x ${second} = ?`
+    const newAnswer = first*second
+
+  //   questionArray[loc-1] = newQuestion
+  //  answerArray[loc-1] = newAnswer
+    questionArray.push(newQuestion);
+    answerArray.push(newAnswer);
+    document.querySelector(`#fly-quesiton-${i}`).innerHTML = newQuestion;
+  }
    
-   const newQuestion = `${first} x ${second} = ?`
-   const newAnswer = first*second
-   questionArray[loc-1] = newQuestion
-   answerArray[loc-1] = newAnswer
-   document.querySelector(`#fly-quesiton-${loc}`).innerHTML = newQuestion
+   
 }
 
 const checkAnswer = () => {
-  let boolCorrect = false
-  let frogRow = document.querySelector("#frog").style.gridRow
-  console.log(document.querySelector(".frog-answer-box").innerText)
-  let currentFlyLocation = frogRow.charAt(0)
-  let answerForFly = answerArray[currentFlyLocation - 1]
+    let boolCorrect = false
+    let frogRow = document.querySelector("#frog").style.gridRow
+    let currentFlyLocation = frogRow.charAt(0)
+    let answerForFly = answerArray[currentFlyLocation - 1]
 
+    if(answerForFly === answerArray[currentAnswerLocation]){
+      console.log("Correct answer")
+      currentAnswerLocation += 1;
+      setFrogAnswer();
+      boolCorrect = true;
 
-  if(answerForFly === answerArray[currentAnswerLocation]){
-    console.log("Correct answer")
-    currentAnswerLocation += 1
-    setFrogAnswer()
-    removeFlyOnCorrectAnswer(currentFlyLocation)
-    boolCorrect = true
-
-  }else{
-    console.log("incorrect answer")
-    changeQuestion(currentFlyLocation)
-    boolCorrect = false
-  }
-return boolCorrect
+    }else{
+      console.log("incorrect answer")
+      changeQuestion(currentFlyLocation);
+      boolCorrect = false;
+    }
+  return boolCorrect
 }
 
 const timer = () => {
@@ -227,6 +237,8 @@ const checkIfLevelCleared = (correctAnswer) => {
   // let checkIfFlyExist = document.querySelector(".img-fly")
   // if(checkIfFlyExist === null && level <5 ){
     if( level <5 && correctAnswer){
+    currentAnswerLocation = generateRandomAnswer();
+
     startGame()
     setFrogAnswer()
     level += 1
@@ -244,7 +256,7 @@ const checkIfLevelCleared = (correctAnswer) => {
       document.querySelector(".frog-answer-box").innerText = "I am full!"
       gameStatus("You win!")
       timeleft = 0
-      savePlayerData()
+      savePlayerData(5);
       document.onkeydown = ""
   }
 }
@@ -253,6 +265,7 @@ const gameStatus = (status) => {
   document.querySelector(".game-over-container").classList.remove("hidden")
   document.querySelector(".game-over").innerText = status
   document.querySelector("#play-again").addEventListener("click", () => {
+    currentAnswerLocation = 2;
     timer()
     startGame()
     document.querySelector("#level").innerText = 1

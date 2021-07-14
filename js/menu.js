@@ -18,7 +18,7 @@ const startGame = () => {
 
     if (playerName === "") {
         document.querySelector(".output").innerHTML = `
-            <p>You must provide the name to start the game</p>
+            <p>You must provide the name to start the game!</p>
         `
     } else { 
         localStorage.setItem("playerName",playerName)
