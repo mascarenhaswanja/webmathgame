@@ -1,15 +1,11 @@
-console.log("Menu - Expert Math Frog");
-
-let player
+let musicOn = false
 
 const initializeSelectors = () => {
-    // document.querySelector('#background').volume = 0.2
     document.querySelector("#btn-start").addEventListener("click",startGame)
     document.querySelector("#btn-rules").addEventListener("click",viewRules)
     document.querySelector("#btn-scores").addEventListener("click",viewScores)
-    document.querySelector("#btn-music").addEventListener("click",playMusic)
     document.querySelector("input").addEventListener("mouseenter",clearPlayer)
-    console.log("Initialize")
+    document.querySelector("#btn-music").addEventListener("click", onMusicClick)
 }
 
 const clearPlayer = () => {
@@ -19,7 +15,6 @@ const clearPlayer = () => {
 
 const startGame = () => {
     let playerName = document.getElementById("player").value
-    console.log("startGame Name = ", playerName)
 
     if (playerName === "") {
         document.querySelector(".output").innerHTML = `
@@ -32,17 +27,36 @@ const startGame = () => {
 }
  
 const viewRules = () => {
-    console.log("View Rules");
     location.replace("rules.html")
 }
 
 const viewScores = () => {
-    console.log("View Scores");
     location.replace("scores.html")
 }
 
 const playMusic = () => {
-    console.log("Play Music");
+    const audio = document.querySelector("#music")
+    audio.play()
+}
+
+const pauseMusic = () => {
+    document.querySelector("#music").pause()
+}
+
+const onMusicClick = () => {
+    console.log("Play / Not Play")
+    if (musicOn) {
+        playMusic() 
+        musicOn = false
+        const image = document.querySelector(".btn-music > img")
+        image.src =  "assets/icon/sound.jpeg" 
+    } else {
+        pauseMusic()
+        musicOn = true
+        const image = document.querySelector(".btn-music > img")
+        image.src =  "assets/icon/no-sound.jpeg" 
+    }
+    //musicOn ? playMusic() :  pauseMusic()
 }
 
 initializeSelectors()

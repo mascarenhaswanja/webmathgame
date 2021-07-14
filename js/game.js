@@ -1,8 +1,5 @@
 let player
-// let question = []
-
 let level = 1; 
-// let timeleft = 60; 
 let trigger ;
 let timerVar ;
 let gameContinueCheck ;
@@ -20,11 +17,7 @@ const generateRandomAnswer = () => {
  
 return number;
 }
-/*  For each row generate the question with random numbers
-Each multiplication question must consist of two randomly generated numbers.
-  The first number must be between 1-15.
-  The second number must be a value between 1-10.
-*/ 
+
 class Score {
   constructor(name, level){
     this.gName = name;
@@ -35,33 +28,24 @@ class Score {
 const savePlayerData = () => {
   let highscoreArray = new Array();
   let playerName = localStorage.getItem("playerName")
+  const scoreItem = new Score(playerName,level)
 
-  console.log("Player ", playerName)
-
-  if("highscore" in localStorage){
-    highscoreArray = JSON.parse(localStorage.getItem('highscore'))
-    const scoreItem = new Score(playerName,level)
-    if (highscoreArray.some(elem => elem.gLevel === scoreItem.gLevel)) {
-      var indexOfObjToInsert = highscoreArray.findIndex(elem =>  elem.gLevel === scoreItem.gLevel)
-      highscoreArray.splice(1, 0, scoreItem);
-      console.log("After splice  ", highscoreArray)
-      //Level is already present in the list, re arrange 
-      
-      console.log("indexOfObjToInsert ", indexOfObjToInsert)
-    } else { 
-      // Update in descrescent order
+  if("highscore" in localStorage) {
+    highscoreArray = JSON.parse(localStorage.getItem('highscore'))  
+    let indexOfLevel = highscoreArray.findIndex(elem =>  elem.gLevel <= scoreItem.gLevel)
+    if (indexOfLevel !== -1) {
+      highscoreArray.splice(indexOfLevel, 0, scoreItem)
+    } else {
+        highscoreArray.push(scoreItem)
+    }
+  } else { 
       highscoreArray.push(scoreItem)
-      highscoreArray.sort()
-      highscoreArray.sort(function(a,b) { return a.scoreItem.gLevel.valueOf() < b.scoreItem.gLevel.valueOf();});
-
-      console.log("After sort  ", highscoreArray)
-      localStorage.setItem('highscore', JSON.stringify(highscoreArray))
-    } 
-  } else {
-    const scoreItem = new Score(playerName,level)
-    highscoreArray.push(scoreItem)
-    localStorage.setItem('highscore', JSON.stringify(highscoreArray))
+  }  
+  if (highscoreArray.length > 5) {
+    highscoreArray.length = 5
   }
+  
+  localStorage.setItem('highscore', JSON.stringify(highscoreArray))
 }
 
 const generateQuestion= () => {

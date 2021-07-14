@@ -18,7 +18,6 @@ body {
     background-position: center center;
     background-size: cover;
 }
-
  
 h1, h2 {
     color: wheat;
@@ -82,10 +81,6 @@ li {
     font-size: 1.30em; 
 }
 
-a {
-    color: wheat;
-    font-size: 1.30em; 
-}
 .img-fly {
     width: 40px;
     height: 40px;
@@ -106,13 +101,13 @@ a {
     grid-column-start: 1;
 }
 
-
 .img-frog {
     width: 68px;
     height: 50px;
     padding: 20px; 
     vertical-align: auto;
 }
+
 .frog-answer-box {
     width: auto;
     height: auto;
@@ -124,9 +119,7 @@ a {
 }
 
 .results {
-    
     background-color: #185c6993;
-    
 }
 
 .btn-goback {
@@ -168,5 +161,25 @@ a {
 
 .hidden {
     display:none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a.button {
+    appearance: button;
+    width: 150px;
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: wheat;
+    font-size: 1.1em; 
+    color: black;
+    text-transform: uppercase;
+}
+
+#home {
+    margin-top: 30px;
 }
 
