@@ -11,14 +11,6 @@ let answerSetUp = new Array()
 let boolGameOver = false
 let musicOn = false
 
-const generateRandomAnswer = () => {
-
-  const number = parseInt(Math.floor((Math.random() * 5) + 0))
-  console.log("Random answer level",number);
- 
-return number
-}
-
 class Score {
   constructor(name, level){
     this.gName = name
@@ -26,11 +18,16 @@ class Score {
   }
 }
 
+const generateRandomAnswer = () => {
+  const number = parseInt(Math.floor((Math.random() * 5) + 0))
+ 
+  return number
+}
+
 const savePlayerData = (level_num) => {
   let highscoreArray = new Array()
   let playerName = localStorage.getItem("playerName")
   const scoreItem = new Score(playerName,level_num)
-
   if("highscore" in localStorage) {
     highscoreArray = JSON.parse(localStorage.getItem('highscore'))  
     let indexOfLevel = highscoreArray.findIndex(elem =>  elem.gLevel <= scoreItem.gLevel)
@@ -52,11 +49,9 @@ const generateQuestion= () => {
         let question = ""
             const first = parseInt(Math.floor((Math.random() * 15) + 1))
             const second = parseInt(Math.floor((Math.random() * 10) + 1))
-            
             question = `${first} x ${second} = ?`
             questionArray.push(question)
             answerArray.push(first*second)
-    
     return question
 };
 
@@ -64,8 +59,6 @@ const initalSetup = () => {
   for(i = 0; i<5 ; i++){
     generateQuestion();
   };
-
-  console.log("Random amnswer inital setup",currentAnswerLocation);
 
   document.querySelector(".game").innerHTML = `
   <div id="frog">
@@ -96,18 +89,17 @@ const gameOver = () => {
       timeleft = 0
       gameStatus("Game over!")
       clearInterval(timerVar)
-      level = 1
       document.onkeydown = ""
-      if(level == 6){
+      if(level === 6){
         savePlayerData(5)
       }else{
         savePlayerData(level)
       }
+      level = 1
 }
 
 const changeFlyLocation = (col) => {
     let selectedFly = Math.floor(Math.random() * 5) + 1;
-    // let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
     let fly = document.querySelector(`#fly-${selectedFly}`)
     if(fly != null && boolGameOver === false){
       let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
@@ -122,16 +114,17 @@ const changeFlyLocation = (col) => {
         document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`
       }
     }
-   
+}
 
-};
 const changeFrogLocation = (row) => {
   document.querySelector("#frog").style.gridRow = row
-};
+}
+
 const animateFly = () => {
     let col = Math.floor(Math.random() * 4) + 1
     changeFlyLocation(col)
-};
+}
+
 const startGame = () => {
   questionArray = []
   answerArray = []
@@ -140,24 +133,23 @@ const startGame = () => {
   boolGameOver = false
   clearInterval(trigger)
   trigger = setInterval(animateFly,800)
-  console.log("game started")
   document.querySelector("#btn-music").addEventListener("click", onMusicClick)
-};
+} 
+
 const setKeyDown = () => {
   document.onkeydown = function (event) {
-  
     switch (event.keyCode) {
       case 38:
-         //console.log("Up key is pressed.");
+         // "Up key is pressed"
          if(currentFrogRow <= 1){
-           return;
+           return
          }else{
           currentFrogRow -= 1
           changeFrogLocation(currentFrogRow)
          }
-         break;
+         break
       case 40:
-         //console.log("Down key is pressed.");
+         // "Down key is pressed"
          if(currentFrogRow >= 5) {
            return
          }else{
@@ -166,7 +158,7 @@ const setKeyDown = () => {
          }
          break
       case 32:
-        //console.log("Space bar pressed");
+        // "Space bar pressed"
         let boolAnswer = checkAnswer()
         setFrogAnswer()
         checkIfLevelCleared(boolAnswer)
@@ -184,14 +176,10 @@ const changeQuestion = (loc) => {
     const newQuestion = `${first} x ${second} = ?`
     const newAnswer = first*second
 
-  //   questionArray[loc-1] = newQuestion
-  //  answerArray[loc-1] = newAnswer
     questionArray.push(newQuestion);
     answerArray.push(newAnswer);
     document.querySelector(`#fly-quesiton-${i}`).innerHTML = newQuestion;
-  }
-   
-   
+  } 
 }
 
 const checkAnswer = () => {
@@ -201,13 +189,10 @@ const checkAnswer = () => {
     let answerForFly = answerArray[currentFlyLocation - 1]
 
     if(answerForFly === answerArray[currentAnswerLocation]){
-      console.log("Correct answer")
       currentAnswerLocation += 1;
       setFrogAnswer();
       boolCorrect = true;
-
     }else{
-      console.log("incorrect answer")
       changeQuestion(currentFlyLocation);
       boolCorrect = false;
     }
@@ -234,23 +219,16 @@ const removeFlyOnCorrectAnswer = (fly_id) => {
 }
 
 const checkIfLevelCleared = (correctAnswer) => {
-  // let checkIfFlyExist = document.querySelector(".img-fly")
-  // if(checkIfFlyExist === null && level <5 ){
-    if( level <5 && correctAnswer){
-    currentAnswerLocation = generateRandomAnswer();
-
-    startGame()
-    setFrogAnswer()
-    level += 1
-    document.querySelector("#level").innerText = level
-
-    if(level === 5){
-      console.log("level == 6")
-      level = 6
-    }
-
-  // }else if(checkIfFlyExist === null && level > 5 ){
-  }else if( level > 5 && correctAnswer){
+    if( level < 5 && correctAnswer){
+      currentAnswerLocation = generateRandomAnswer();
+      startGame()
+      setFrogAnswer()
+      level += 1
+      document.querySelector("#level").innerText = level
+      if(level === 5) {
+        level = 6
+      }
+    } else if( level > 5 && correctAnswer){
       boolGameOver = true
       clearInterval(timerVar)
       document.querySelector(".frog-answer-box").innerText = "I am full!"
@@ -258,7 +236,7 @@ const checkIfLevelCleared = (correctAnswer) => {
       timeleft = 0
       savePlayerData(5);
       document.onkeydown = ""
-  }
+    }
 }
 
 const gameStatus = (status) => {
@@ -278,14 +256,13 @@ const gameStatus = (status) => {
   document.querySelector("#home").addEventListener("click", () => {
     location.replace("index.html")
   })
-  console.log("Level game status" , level)
-  if(level == 6){
+  if(level === 6){
     document.querySelector("#level-game-over").innerText = 5
     level = 1
   }else{
     document.querySelector("#level-game-over").innerText = level
   }
-};
+}
 
 const playMusic = () => {
   const audio = document.querySelector("#music")
@@ -307,9 +284,9 @@ const onMusicClick = () => {
       musicOn = true
       image.src =  "assets/icon/no-sound.jpeg" 
   }
-
 }
-//  START GAME
+
+// =======  START GAME  =======
 timer()
 startGame()
 

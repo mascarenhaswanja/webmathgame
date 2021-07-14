@@ -17,7 +17,6 @@ const recoveryScore = () => {
     document.querySelector(".score").innerHTML += `</ul>`  
   }
   else {
-    console.log("No Score saved yet ", highscoreArray)
     document.querySelector(".score").innerHTML = `<p>
     No Score saved yet</p>`
   }
