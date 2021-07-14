@@ -9,13 +9,14 @@ Correctly answering a question advances the user to the next level.
 
 To win the game, the player must successfully defeat 5 levels of the game within the specified time.
 
-## Authors
+## :woman_office_worker: :man_office_worker: Authors
+
+[Mayank](https://github.com/mayankaryaca)
+student ID: 101300566
 
 [Wanja Mascarenhas](https://github.com/mascarenhaswanja)
 student ID: 101280022
-    
-[Mayank](https://github.com/mayankaryaca)
-student ID: 101300566
+
     
 ## :gear: Funcionalities
 
@@ -34,21 +35,25 @@ Game screen - The user plays the game. Screen displays:
 
 High Scores Screen - Displays a list of users who have played the game, and which level they reached.
 
-### :woman_office_worker: :man_office_worker: 
+Rules Screen - Displays a list of the game rules
 
 ## :woman_student: :man_student: Students tasks
 
 ### 🖼️ Screenshots
 
-#### Welcome
+### Welcome
 
 ![](./screenshots/Welcome.png) 
 
-#### Rules
+### Rules
 
 ![](./screenshots/Rules.png) 
 
-#### Scores
+### Game
+
+![](./screenshots/Game.png)
+
+### Scores
 
 ![](./screenshots/Scores.png) 
 
