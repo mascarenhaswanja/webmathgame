@@ -41,19 +41,19 @@ Rules Screen - Displays a list of the game rules
 
 ### 🖼️ Screenshots
 
-### Welcome
+## Welcome
 
 ![](./screenshots/Welcome.png) 
 
-### Rules
+## Rules
 
 ![](./screenshots/Rules.png) 
 
-### Game
+## Game
 
 ![](./screenshots/Game.png)
 
-### Scores
+## Scores
 
 ![](./screenshots/Scores.png) 
 
