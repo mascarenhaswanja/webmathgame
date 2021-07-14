@@ -1,7 +1,7 @@
 class Score {
     constructor(name, level){
-      this.gName = name;
-      this.gLevel = level;
+      this.gName = name
+      this.gLevel = level
     }
 }
 

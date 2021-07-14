@@ -44,19 +44,17 @@ const pauseMusic = () => {
 }
 
 const onMusicClick = () => {
-    console.log("Play / Not Play")
+    const image = document.querySelector(".btn-music > img")
     if (musicOn) {
         playMusic() 
         musicOn = false
-        const image = document.querySelector(".btn-music > img")
         image.src =  "assets/icon/sound.jpeg" 
     } else {
         pauseMusic()
         musicOn = true
-        const image = document.querySelector(".btn-music > img")
         image.src =  "assets/icon/no-sound.jpeg" 
     }
-    //musicOn ? playMusic() :  pauseMusic()
+ 
 }
 
 initializeSelectors()

@@ -1,32 +1,32 @@
-let player
-let level = 1; 
-let trigger ;
-let timerVar ;
-let gameContinueCheck ;
-let itemColGameEnd = 0;
-let currentFrogRow = 3;
-let answerArray = new Array();
-let questionArray = new Array();
-let currentAnswerLocation = 0;
-let answerSetUp = new Array();
-let boolGameOver = false;
+let level = 1
+let trigger 
+let timerVar
+let gameContinueCheck
+let itemColGameEnd = 0
+let currentFrogRow = 3
+let answerArray = new Array()
+let questionArray = new Array()
+let currentAnswerLocation = 0
+let answerSetUp = new Array()
+let boolGameOver = false
+let musicOn = false
 
 const generateRandomAnswer = () => {
 
-  const number = parseInt(Math.floor((Math.random() * 5) + 0));
+  const number = parseInt(Math.floor((Math.random() * 5) + 0))
  
-return number;
+return number
 }
 
 class Score {
   constructor(name, level){
-    this.gName = name;
-    this.gLevel = level;
+    this.gName = name
+    this.gLevel = level
   }
 }
 
 const savePlayerData = () => {
-  let highscoreArray = new Array();
+  let highscoreArray = new Array()
   let playerName = localStorage.getItem("playerName")
   const scoreItem = new Score(playerName,level)
 
@@ -44,39 +44,36 @@ const savePlayerData = () => {
   if (highscoreArray.length > 5) {
     highscoreArray.length = 5
   }
-  
   localStorage.setItem('highscore', JSON.stringify(highscoreArray))
 }
 
 const generateQuestion= () => {
-        // generate different questions for each level
-
         let question = ""
-            const first = parseInt(Math.floor((Math.random() * 15) + 1));
-            const second = parseInt(Math.floor((Math.random() * 10) + 1));
+            const first = parseInt(Math.floor((Math.random() * 15) + 1))
+            const second = parseInt(Math.floor((Math.random() * 10) + 1))
             
-            question = `${first} x ${second} = ?`;
+            question = `${first} x ${second} = ?`
             questionArray.push(question)
-            answerArray.push(first*second);
+            answerArray.push(first*second)
     
     return question
 };
 
 const initalSetup = () => {
   for(i = 0; i<5 ; i++){
-    generateQuestion();
+    generateQuestion()
   }
-  currentAnswerLocation = generateRandomAnswer();
-  console.log("Answer ",answerArray);
-  console.log("Questn ",questionArray);
+  currentAnswerLocation = generateRandomAnswer()
+  console.log("Answer ",answerArray)
+  console.log("Questn ",questionArray)
   document.querySelector(".game").innerHTML = `
   <div id="frog">
   <img class="img-frog" src="assets/img/frog_new.png">
   <p class="frog-answer-box">${answerArray[currentAnswerLocation]}</p>
   </div>
   `
-  document.querySelector("#frog").style.gridColumn = '20';
-  document.querySelector("#frog").style.gridRow = '3';  
+  document.querySelector("#frog").style.gridColumn = '20'
+  document.querySelector("#frog").style.gridRow = '3'
   for(let i = 0; i< 5; i++){
     document.querySelector(".game").innerHTML += `
   <div class="location-col-1" id="fly-${i+1}">
@@ -87,59 +84,60 @@ const initalSetup = () => {
   document.querySelector(`#fly-${i+1}`).style.gridColumn = '1'
   document.querySelector(`#fly-${i+1}`).style.gridRow = `${i+1}`
   }
-};
+}
 
 const setFrogAnswer = () => {
   document.querySelector(".frog-answer-box").innerText = answerArray[currentAnswerLocation]
-};
+}
+
 const gameOver = () => {
-      boolGameOver = true;
-      timeleft = 0;
-      savePlayerData();
-      gameStatus("Game over!");
-      clearInterval(timerVar);
-      level = 1;
+      boolGameOver = true
+      timeleft = 0
+      savePlayerData()
+      gameStatus("Game over!")
+      clearInterval(timerVar)
+      level = 1
       document.onkeydown = ""
-};
+}
+
 const changeFlyLocation = (col) => {
     let selectedFly = Math.floor(Math.random() * 5) + 1;
     // let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
     let fly = document.querySelector(`#fly-${selectedFly}`)
     if(fly != null && boolGameOver === false){
       let currentFlyCol = document.querySelector(`#fly-${selectedFly}`).style.gridColumn
-
-    
-      let newFlyCol = parseInt(currentFlyCol) + col ;
+      let newFlyCol = parseInt(currentFlyCol) + col 
       if(newFlyCol >= 20){
-        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `20`;
-        itemColGameEnd = newFlyCol;
-        gameOver();
+        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `20`
+        itemColGameEnd = newFlyCol
+        gameOver()
       }
       if(newFlyCol < 20 ){
-        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`;
-        document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`;
+        document.querySelector(`#fly-${selectedFly}`).style.gridColumn = `${newFlyCol}`
+        document.querySelector(`#fly-${selectedFly}`).style.gridRowStart = `${selectedFly}`
       }
     }
    
 
 };
 const changeFrogLocation = (row) => {
-  document.querySelector("#frog").style.gridRow = row;
+  document.querySelector("#frog").style.gridRow = row
 };
 const animateFly = () => {
-    let col = Math.floor(Math.random() * 4) + 1;
-    changeFlyLocation(col);
+    let col = Math.floor(Math.random() * 4) + 1
+    changeFlyLocation(col)
 };
 const startGame = () => {
-  questionArray = [];
-  answerArray = [];
-  initalSetup();
-  currentAnswerLocation = 0;
-  setKeyDown();
-  boolGameOver = false;
+  questionArray = []
+  answerArray = []
+  initalSetup()
+  currentAnswerLocation = 0
+  setKeyDown()
+  boolGameOver = false
   clearInterval(trigger)
-  trigger = setInterval(animateFly,800);
-  console.log("game started");
+  trigger = setInterval(animateFly,800)
+  console.log("game started")
+  document.querySelector("#btn-music").addEventListener("click", onMusicClick)
 };
 const setKeyDown = () => {
   document.onkeydown = function (event) {
@@ -150,141 +148,156 @@ const setKeyDown = () => {
          if(currentFrogRow <= 1){
            return;
          }else{
-          currentFrogRow -= 1;
+          currentFrogRow -= 1
           changeFrogLocation(currentFrogRow)
          }
-         
          break;
       case 40:
          //console.log("Down key is pressed.");
-         if(currentFrogRow >= 5){
-           return;
+         if(currentFrogRow >= 5) {
+           return
          }else{
-          currentFrogRow += 1;
+          currentFrogRow += 1
           changeFrogLocation(currentFrogRow)
          }
-      
-         break;
-
+         break
       case 32:
         //console.log("Space bar pressed");
-        let boolAnswer = checkAnswer();
-        setFrogAnswer();
-        checkIfLevelCleared(boolAnswer);
-        break;
+        let boolAnswer = checkAnswer()
+        setFrogAnswer()
+        checkIfLevelCleared(boolAnswer)
+        break
    }
-  
- 
-};
-};
+  }
+}
 const changeQuestion = (loc) => {
-   const first = parseInt(Math.floor((Math.random() * 15) + 1));
-   const second = parseInt(Math.floor((Math.random() * 10) + 1));
+   const first = parseInt(Math.floor((Math.random() * 15) + 1))
+   const second = parseInt(Math.floor((Math.random() * 10) + 1))
    
-   const newQuestion = `${first} x ${second} = ?`;
-   const newAnswer = first*second;
-   questionArray[loc-1] = newQuestion;
-   answerArray[loc-1] = newAnswer;
+   const newQuestion = `${first} x ${second} = ?`
+   const newAnswer = first*second
+   questionArray[loc-1] = newQuestion
+   answerArray[loc-1] = newAnswer
    document.querySelector(`#fly-quesiton-${loc}`).innerHTML = newQuestion
+}
 
- };
 const checkAnswer = () => {
-  let boolCorrect = false;
+  let boolCorrect = false
   let frogRow = document.querySelector("#frog").style.gridRow
   console.log(document.querySelector(".frog-answer-box").innerText)
   let currentFlyLocation = frogRow.charAt(0)
-  let answerForFly = answerArray[currentFlyLocation - 1];
+  let answerForFly = answerArray[currentFlyLocation - 1]
 
 
   if(answerForFly === answerArray[currentAnswerLocation]){
-    console.log("Correct answer");
-    currentAnswerLocation += 1;
-    setFrogAnswer();
-    removeFlyOnCorrectAnswer(currentFlyLocation);
-    boolCorrect = true;
+    console.log("Correct answer")
+    currentAnswerLocation += 1
+    setFrogAnswer()
+    removeFlyOnCorrectAnswer(currentFlyLocation)
+    boolCorrect = true
 
   }else{
-    console.log("incorrect answer");
-    changeQuestion(currentFlyLocation);
-    boolCorrect = false;
+    console.log("incorrect answer")
+    changeQuestion(currentFlyLocation)
+    boolCorrect = false
   }
-return boolCorrect;
-};
+return boolCorrect
+}
+
 const timer = () => {
   clearInterval(timerVar);
-  let timeleft = 60;
+  let timeleft = 60
   timerVar = setInterval(function(){
   if(timeleft <= 0){
-    clearInterval(timerVar);
+    clearInterval(timerVar)
   }else{
-    timeleft -= 1;
+    timeleft -= 1
   }
-  document.querySelector("#remaining").innerText = timeleft;
+  document.querySelector("#remaining").innerText = timeleft
 }, 1000);
-};
+}
+
 const removeFlyOnCorrectAnswer = (fly_id) => {
   document.querySelector(`#fly-${fly_id}`).innerHTML = ""
   document.querySelector(`#fly-${fly_id}`).gridColumn = ""
   document.querySelector(`#fly-${fly_id}`).id = ""
-
-};
+}
 
 const checkIfLevelCleared = (correctAnswer) => {
   // let checkIfFlyExist = document.querySelector(".img-fly")
-
   // if(checkIfFlyExist === null && level <5 ){
     if( level <5 && correctAnswer){
-    startGame();
-    setFrogAnswer();
-    level += 1;
-    document.querySelector("#level").innerText = level;
+    startGame()
+    setFrogAnswer()
+    level += 1
+    document.querySelector("#level").innerText = level
 
     if(level === 5){
-      console.log("level == 6");
-      level = 6;
+      console.log("level == 6")
+      level = 6
     }
 
   // }else if(checkIfFlyExist === null && level > 5 ){
   }else if( level > 5 && correctAnswer){
-      boolGameOver = true;
-      clearInterval(timerVar);
+      boolGameOver = true
+      clearInterval(timerVar)
       document.querySelector(".frog-answer-box").innerText = "I am full!"
       gameStatus("You win!")
-      timeleft = 0;
-      savePlayerData();
-      document.onkeydown = "";
+      timeleft = 0
+      savePlayerData()
+      document.onkeydown = ""
   }
-};
+}
+
 const gameStatus = (status) => {
   document.querySelector(".game-over-container").classList.remove("hidden")
-  document.querySelector(".game-over").innerText = status;
+  document.querySelector(".game-over").innerText = status
   document.querySelector("#play-again").addEventListener("click", () => {
-    timer();
-    startGame();
-    document.querySelector("#level").innerText = 1;
-    document.querySelector("#remaining").innerText = 60;
-
-    document.querySelector(".game-over-container").classList.add("hidden");
+    timer()
+    startGame()
+    document.querySelector("#level").innerText = 1
+    document.querySelector("#remaining").innerText = 60
+    document.querySelector(".game-over-container").classList.add("hidden")
   })
   document.querySelector("#high-scores").addEventListener("click", () => {
     location.replace("scores.html")
-
   })
   document.querySelector("#home").addEventListener("click", () => {
     location.replace("index.html")
-
   })
   console.log("Level game status" , level)
   if(level == 6){
     document.querySelector("#level-game-over").innerText = 5
-    level = 1;
+    level = 1
   }else{
     document.querySelector("#level-game-over").innerText = level
-
   }
 };
 
-timer();
-startGame();
+const playMusic = () => {
+  const audio = document.querySelector("#music")
+  audio.play()
+}
+
+const pauseMusic = () => {
+  document.querySelector("#music").pause()
+}
+
+const onMusicClick = () => {
+  const image = document.querySelector(".btn-music > img")
+  if (musicOn) {
+      playMusic() 
+      musicOn = false
+      image.src =  "assets/icon/sound.jpeg" 
+  } else {
+      pauseMusic()
+      musicOn = true
+      image.src =  "assets/icon/no-sound.jpeg" 
+  }
+
+}
+//  START GAME
+timer()
+startGame()
 
 
